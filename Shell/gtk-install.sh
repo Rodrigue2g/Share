@@ -11,11 +11,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
-<<Usage
-    Use this software to install gtkmm on macOS
-    Run /bin/bash -c "$(curl -k https://raw.githubusercontent.com/Dequavious6/Share/main/Shell/gtk-install.sh)" in a terminal
-Usage
-VERSION=1.3.0
+
+VERSION=1.3.1
 #./$(dirname "$0")/VERSION
 #echo "${VERSION}"
 set -u
@@ -69,7 +66,7 @@ abort(){
   exit 1
 }
 
-# OS check
+#OS check
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]; then
     INSTALL_ON_LINUX=1
@@ -142,12 +139,16 @@ main(){
         brew_update
         brew_install gtk+3
         brew_install gtkmm3
-        # Uncomment the following lines to enable Xcode extension (Not mandatory)
-        wait_for_user
-        brew_install glade
-        cflags_dir gtkmm3
-        to_dir dir
-        complete "Installation of gtkmm completed with Xcode flags set"
+        # The following lines enable Xcode extensions (Not mandatory)
+        if [[ -n "${INSTALL_ON_MACOS-}" ]]; then
+            wait_for_user
+            brew_install glade
+            cflags_dir gtkmm3
+            to_dir dir
+            complete "Installation of gtkmm completed with Xcode flags set"
+        else
+            complete "Installation of gtkmm completed"
+        fi
 }
 
 main "$@"
