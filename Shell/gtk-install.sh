@@ -13,6 +13,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 LICENSE
 
 VERSION=1.3.1
+#./$(dirname "$0")/VERSION
+#echo "${VERSION}"
 set -u
 
 # string formatters
@@ -133,20 +135,20 @@ wait_for_user(){
 }
 
 main(){
-        local -r dir=$(dirname "${BASH_SOURCE[0]}")
-        brew_update
-        brew_install gtk+3
-        brew_install gtkmm3
-        # The following lines enable Xcode extensions (Not mandatory)
-        if [[ -n "${INSTALL_ON_MACOS-}" ]]; then
-            wait_for_user
-            brew_install glade
-            cflags_dir gtkmm3
-            to_dir dir
-            complete "Installation of gtkmm completed with Xcode flags set"
-        else
-            complete "Installation of gtkmm completed"
-        fi
+    local -r dir=$(dirname "${BASH_SOURCE[0]}")
+    brew_update
+    brew_install gtk+3
+    brew_install gtkmm3
+    # The following lines enable Xcode extensions (Not mandatory)
+    if [[ -n "${INSTALL_ON_MACOS-}" ]]; then
+        wait_for_user
+        brew_install glade
+        cflags_dir gtkmm3
+        to_dir dir
+        complete "Installation of gtkmm completed with Xcode flags set"
+    else
+        complete "Installation of gtkmm completed"
+    fi
 }
 
 main "$@"
