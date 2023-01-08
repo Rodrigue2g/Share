@@ -111,7 +111,7 @@ cflags_dir(){
     cd /usr/local/Cellar/gtkmm3/$gtk_version/lib/pkgconfig && pkg-config gtkmm-3.0.pc --cflags --libs
 }
 
-to_dir(){ cd $dir; }
+to_dir(){ cd $1; }
 
 getc(){
   local save_state
@@ -133,7 +133,7 @@ wait_for_user(){
 }
 
 main(){
-    local -r dir=$(dirname "${BASH_SOURCE[0]}")
+    #local -r dir=$(dirname "${BASH_SOURCE[0]}")
     brew_update
     brew_install gtk+3
     brew_install gtkmm3
@@ -142,7 +142,7 @@ main(){
         wait_for_user
         brew_install glade
         cflags_dir gtkmm3
-        to_dir dir
+        #to_dir dir
         complete "Installation of gtkmm completed with Xcode flags set"
     else
         complete "Installation of gtkmm completed"
