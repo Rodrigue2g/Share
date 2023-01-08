@@ -117,30 +117,29 @@ cflags_dir(){
     gtk_version="$(brew list --versions | grep ${1} | cut -d " " -f 2)"
     cd /usr/local/Cellar/gtkmm3/$gtk_version/lib/pkgconfig && pkg-config gtkmm-3.0.pc --cflags --libs
 }
-function to_dir(){
-    cd $dir
+
+to_dir(){ cd $dir }
+
+getc(){
+    local save_state
+    save_state="$(/bin/stty -g)"
+    /bin/stty raw -echo
+    IFS='' read -r -n 1 -d '' "$@"
+    /bin/stty "${save_state}"
 }
 
-getc() {
-  local save_state
-  save_state="$(/bin/stty -g)"
-  /bin/stty raw -echo
-  IFS='' read -r -n 1 -d '' "$@"
-  /bin/stty "${save_state}"
-}
-
-wait_for_user() {
-  local c
-  echo
-  echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
-  getc c
-  # we test for \r and \n because some stuff does \r instead
-  if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
-  then
-    complete "Installation of gtkmm completed"
+wait_for_user(){
+    local c
     echo
-    exit 1
-  fi
+    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
+    getc c
+    # we test for \r and \n because some stuff does \r instead
+    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
+    then
+        complete "Installation of gtkmm completed"
+        echo
+        exit 1
+    fi
 }
 
 main(){
