@@ -18,6 +18,7 @@ Usage
 VERSION=1.2.0
 #./$(dirname "$0")/VERSION
 #echo "${VERSION}"
+set -u
 
 # string formatters
 if [[ -t 1 ]]
@@ -65,6 +66,23 @@ complete() {
     printf "${tty_green}Success${tty_reset}: %s\n" "$(chomp ${tty_bold}"$1"${tty_reset})"
 }
 
+abort() {
+  warn "$@" >&2
+  exit 1
+}
+
+# First check OS.
+OS="$(uname)"
+if [[ "${OS}" == "Linux" ]]
+then
+  HOMEBREW_ON_LINUX=1
+elif [[ "${OS}" == "Darwin" ]]
+then
+  HOMEBREW_ON_MACOS=1
+else
+  abort "Gtkmm with Homebrew is only supported on macOS and Linux."
+fi
+
 brew_update(){
     if [ "$(command -v brew)" ]; then
         warn "Homebrew already exists"
@@ -103,16 +121,40 @@ function to_dir(){
     cd $dir
 }
 
+getc() {
+  local save_state
+  save_state="$(/bin/stty -g)"
+  /bin/stty raw -echo
+  IFS='' read -r -n 1 -d '' "$@"
+  /bin/stty "${save_state}"
+}
+
+wait_for_user() {
+  local c
+  echo
+  echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
+  getc c
+  # we test for \r and \n because some stuff does \r instead
+  if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
+  then
+    complete "Installation of gtkmm completed"
+    echo
+    exit 1
+  fi
+}
+
 main(){
         local -r dir=$(dirname "${BASH_SOURCE[0]}")
         brew_update
         brew_install gtk+3
         brew_install gtkmm3
         # Uncomment the following lines to enable Xcode extension (Not mandatory)
-        #brew_install glade
-        #cflags_dir gtkmm3
-        #to_dir dir
-        complete "Installation of gtkmm completed"
+        wait_for_user
+        brew_install glade
+        cflags_dir gtkmm3
+        to_dir dir
+        complete "Installation of gtkmm completed with Xcode flags set"
+        echo
 }
 
 main "$@"
