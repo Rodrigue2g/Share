@@ -36,7 +36,7 @@ tty_tur="$(tty_mkbold 36)"
 tty_bold="$(tty_mkbold 39)"
 tty_reset="$(tty_escape 0)"
 
-shell_join() {
+shell_join(){
     local arg
     printf "%s" "$1"
     shift
@@ -46,15 +46,12 @@ shell_join() {
         printf "%s" "${arg// /\ }"
     done
 }
-
 chomp(){
     printf "%s" "${1/"$'\n'"/}"
 }
-
 ohai(){
     printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
 }
-
 warn(){
     printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")"
 }
@@ -63,6 +60,8 @@ notice(){
 }
 complete(){
     printf "${tty_green}Success${tty_reset}: %s\n" "$(chomp ${tty_bold}"$1"${tty_reset})"
+    echo
+    exit 0
 }
 
 abort(){
@@ -70,7 +69,7 @@ abort(){
   exit 1
 }
 
-# First check OS.
+# OS check
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]; then
     INSTALL_ON_LINUX=1
@@ -135,8 +134,6 @@ wait_for_user(){
     # we test for \r and \n because some stuff does \r instead
     if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
         complete "Installation of gtkmm completed"
-        echo
-        exit 1
     fi
 }
 
@@ -151,7 +148,6 @@ main(){
         cflags_dir gtkmm3
         to_dir dir
         complete "Installation of gtkmm completed with Xcode flags set"
-        echo
 }
 
 main "$@"
