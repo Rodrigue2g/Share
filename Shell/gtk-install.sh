@@ -13,9 +13,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 LICENSE
 <<Usage
     Use this software to install gtkmm on macOS
-    Run 'bash gtk-install.sh' in a terminal
+    Run /bin/bash -c "$(curl -k https://raw.githubusercontent.com/Dequavious6/Share/main/Shell/gtk-install.sh)" in a terminal
 Usage
-VERSION=1.2.0
+VERSION=1.3.0
 #./$(dirname "$0")/VERSION
 #echo "${VERSION}"
 set -u
