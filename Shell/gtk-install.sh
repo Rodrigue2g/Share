@@ -71,7 +71,7 @@ abort() {
   exit 1
 }
 
-# First check OS.
+# OS check
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
 then
