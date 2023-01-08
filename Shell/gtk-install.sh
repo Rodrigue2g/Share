@@ -21,11 +21,10 @@ VERSION=1.2.0
 set -u
 
 # string formatters
-if [[ -t 1 ]]
-then
-  tty_escape() { printf "\033[%sm" "$1"; }
+if [[ -t 1 ]]; then
+    tty_escape(){ printf "\033[%sm" "$1"; }
 else
-  tty_escape() { :; }
+    tty_escape(){ :; }
 fi
 tty_mkbold() { tty_escape "1;$1"; }
 tty_underline="$(tty_escape "4;39")"
@@ -48,36 +47,34 @@ shell_join() {
     done
 }
 
-chomp() {
+chomp(){
     printf "%s" "${1/"$'\n'"/}"
 }
 
-ohai() {
+ohai(){
     printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
 }
 
-warn() {
+warn(){
     printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")"
 }
 notice(){
     printf "${tty_rose}Notice${tty_reset}: %s\n" "$(chomp "$1")"
 }
-complete() {
+complete(){
     printf "${tty_green}Success${tty_reset}: %s\n" "$(chomp ${tty_bold}"$1"${tty_reset})"
 }
 
-abort() {
+abort(){
   warn "$@" >&2
   exit 1
 }
 
 # First check OS.
 OS="$(uname)"
-if [[ "${OS}" == "Linux" ]]
-then
+if [[ "${OS}" == "Linux" ]]; then
     INSTALL_ON_LINUX=1
-elif [[ "${OS}" == "Darwin" ]]
-then
+elif [[ "${OS}" == "Darwin" ]]; then
     INSTALL_ON_MACOS=1
 else
     abort "Gtkmm with Homebrew is only supported on macOS and Linux."
@@ -94,7 +91,7 @@ brew_update(){
     fi
 }
 
-brew_install() {
+brew_install(){
     if brew list $1 >/dev/null 2>&1; then
         notice "${1} is already installed"
         brew_upgrade ${1}
@@ -120,9 +117,9 @@ cflags_dir(){
     cd /usr/local/Cellar/gtkmm3/$gtk_version/lib/pkgconfig && pkg-config gtkmm-3.0.pc --cflags --libs
 }
 
-to_dir(){ cd $dir }
+to_dir(){ cd $dir; }
 
-getc() {
+getc(){
   local save_state
   save_state="$(/bin/stty -g)"
   /bin/stty raw -echo
@@ -130,14 +127,13 @@ getc() {
   /bin/stty "${save_state}"
 }
 
-wait_for_user() {
+wait_for_user(){
     local c
     echo
     echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
     getc c
     # we test for \r and \n because some stuff does \r instead
-    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
-    then
+    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
         complete "Installation of gtkmm completed"
         echo
         exit 1
@@ -171,4 +167,4 @@ https://brew.sh
 https://developpaper.com/macos-c-rapidly-develops-native-desktop-programs-using-gtkmm-gui/
 Links
 #
-#EOF
+#!EOF
