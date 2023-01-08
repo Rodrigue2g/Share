@@ -13,8 +13,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 LICENSE
 
 VERSION=1.3.1
-#./$(dirname "$0")/VERSION
-#echo "${VERSION}"
 set -u
 
 # string formatters
