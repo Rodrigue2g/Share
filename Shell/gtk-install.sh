@@ -75,10 +75,10 @@ abort() {
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
 then
-  HOMEBREW_ON_LINUX=1
+  INSTALL_ON_LINUX=1
 elif [[ "${OS}" == "Darwin" ]]
 then
-  HOMEBREW_ON_MACOS=1
+  INSTALL_ON_MACOS=1
 else
   abort "Gtkmm with Homebrew is only supported on macOS and Linux."
 fi
