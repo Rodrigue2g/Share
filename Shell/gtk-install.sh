@@ -133,7 +133,7 @@ wait_for_user(){
 }
 
 main(){
-    local -r dir=$(dirname "${BASH_SOURCE[0]}")
+    local -r dir=$(dirname "${BASH_SOURCE[0]-}")
     brew_update
     brew_install gtk+3
     brew_install gtkmm3
