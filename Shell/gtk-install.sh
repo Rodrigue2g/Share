@@ -71,16 +71,16 @@ abort() {
   exit 1
 }
 
-# OS check
+# First check OS.
 OS="$(uname)"
 if [[ "${OS}" == "Linux" ]]
 then
-  INSTALL_ON_LINUX=1
+    INSTALL_ON_LINUX=1
 elif [[ "${OS}" == "Darwin" ]]
 then
-  INSTALL_ON_MACOS=1
+    INSTALL_ON_MACOS=1
 else
-  abort "Gtkmm with Homebrew is only supported on macOS and Linux."
+    abort "Gtkmm with Homebrew is only supported on macOS and Linux."
 fi
 
 brew_update(){
@@ -103,6 +103,7 @@ brew_install() {
         brew install ${1}
     fi
 }
+
 brew_upgrade(){
     if brew outdated $1 >/dev/null 2>&1; then
         echo "formula is up to date"
@@ -113,6 +114,7 @@ brew_upgrade(){
         brew upgrade ${1}
     fi
 }
+
 cflags_dir(){
     gtk_version="$(brew list --versions | grep ${1} | cut -d " " -f 2)"
     cd /usr/local/Cellar/gtkmm3/$gtk_version/lib/pkgconfig && pkg-config gtkmm-3.0.pc --cflags --libs
@@ -120,15 +122,15 @@ cflags_dir(){
 
 to_dir(){ cd $dir }
 
-getc(){
-    local save_state
-    save_state="$(/bin/stty -g)"
-    /bin/stty raw -echo
-    IFS='' read -r -n 1 -d '' "$@"
-    /bin/stty "${save_state}"
+getc() {
+  local save_state
+  save_state="$(/bin/stty -g)"
+  /bin/stty raw -echo
+  IFS='' read -r -n 1 -d '' "$@"
+  /bin/stty "${save_state}"
 }
 
-wait_for_user(){
+wait_for_user() {
     local c
     echo
     echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
