@@ -81,7 +81,7 @@ brew_update(){
         brew update
     else
         echo "Installing Hombrew..."
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     fi
 }
 
@@ -154,12 +154,15 @@ main "$@"
 #
 # Links
 #
+# DEPRECATED INSTALLATION METHODS:
+# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-<<Links
+#
+<<LINKS
 https://developer-old.gnome.org/gtkmm-tutorial/3.24/index.html
 https://medium.com/@ivyzhou/how-to-use-gtkmm-with-glade-in-xcode-69745c8401a9
 https://brew.sh
 https://developpaper.com/macos-c-rapidly-develops-native-desktop-programs-using-gtkmm-gui/
-Links
+LINKS
 #
 #!EOF
