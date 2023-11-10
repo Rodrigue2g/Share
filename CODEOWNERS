@@ -9,7 +9,7 @@
 
 # Order is important; the last matching pattern takes the most
 # precedence. When someone opens a pull request that only
-# modifies JS files, only @@Rodrigue2g and not the global
+# modifies JS files, only @Rodrigue2g and not the global
 # owner(s) will be requested for a review.
 *.c     @Rodrigue2g
 *.cc    @Rodrigue2g
