@@ -98,14 +98,37 @@ brew_install(){
     fi
 }
 
+brew_install_cask(){
+    if brew list --cask $1 >/dev/null 2>&1; then
+        notice "${1} is already installed"
+        brew_upgrade_cask ${1}
+    else
+        echo "Installing ${1}..."
+        brew install --cask ${1}
+    fi
+}
+
 brew_upgrade(){
     if brew outdated $1 >/dev/null 2>&1; then
         echo "formula is up to date"
     else
-        warn "formula is outdated\n" && ohai "Cleaning up..."
-        brew cleanup ${1}
+        warn "formula is outdated\n"
         ohai "Upgrading formula..."
         brew upgrade ${1}
+        ohai "Cleaning up..."
+        brew cleanup ${1}
+    fi
+}
+
+brew_upgrade_cask(){
+    if brew outdated --cask $1 >/dev/null 2>&1; then
+        echo "Cask is up to date"
+    else
+        warn "Cask is outdated\n"
+        ohai "Upgrading formula..."
+        brew upgrade --cask ${1}
+        ohai "Cleaning up..."
+        brew cleanup --cask ${1}
     fi
 }
 
@@ -182,6 +205,13 @@ main(){
     if [ $s -eq 0 ]; then
         brew tap mongodb/brew
         brew_install mongodb-community@7.0
+    fi
+
+    # Install Zoom
+    wait_4_skip "Zoom"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask zoom
     fi
 
     # End of setup
