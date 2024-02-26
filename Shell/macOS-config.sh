@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=1.0.0
+VERSION=1.2.0
 set -u
 
 # string formatters
@@ -82,7 +82,7 @@ brew_update(){
         brew update
     else
         echo "Installing Hombrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         # For silicon macs:
         echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.zshrc
         source ~/.zshrc
@@ -235,25 +235,18 @@ main(){
         brew_install_cask slack
     fi
 
+    # Install GitHub Desktop
+    wait_4_skip "GitHub Desktop"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask github
+    fi
+
     # Install VSCode
     wait_4_skip "VS Code (Microsoft Visual Studio Code)"
     s=$?
     if [ $s -eq 0 ]; then
         brew_install_cask visual-studio-code
-    fi
-
-    # Install MongoDB Compass
-    wait_4_skip "MongoDB Compass"
-    s=$?
-    if [ $s -eq 0 ]; then
-        brew_install_cask mongodb-compass
-    fi
-
-    # Install LTSpice
-    wait_4_skip "LTSpice"
-    s=$?
-    if [ $s -eq 0 ]; then
-        brew_install_cask ltspice
     fi
 
     # Install Docker
@@ -263,11 +256,130 @@ main(){
         brew_install_cask docker
     fi
 
-    # Install GitHub Desktop
-    wait_4_skip "GitHub Desktop"
+    # Install Virtual Box
+    wait_4_skip "Virtual Box"
     s=$?
     if [ $s -eq 0 ]; then
-        brew_install_cask github
+        warn "Virtual Box is only available for x86 architectures"
+    fi
+
+    # Install VMware Horizon Client
+    wait_4_skip "VMware Horizon Client"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask vmware-horizon-client
+    fi
+
+    # Install Wireshark
+    wait_4_skip "Wireshark"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask wireshark
+    fi
+
+    # Install MongoDB Compass
+    wait_4_skip "MongoDB Compass"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask mongodb-compass
+    fi
+
+    # Install SF Symbols
+    wait_4_skip "SF Symbols"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask sf-symbols
+    fi
+
+    # Install LTSpice
+    wait_4_skip "LTSpice"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask ltspice
+    fi
+
+    # Install KiCad
+    wait_4_skip "KiCad"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask kicad
+    fi
+    
+    # Install Arduino
+    wait_4_skip "Arduino (IDE)"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask arduino-ide
+    fi
+
+    # Install Telegram
+    wait_4_skip "Telegram"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask telegram
+    fi
+
+    # Install Messenger
+    wait_4_skip "Facebook (Meta) Messenger"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask messenger
+    fi
+
+    # Install Whatsapp
+    wait_4_skip "Whatsapp"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask whatsapp
+    fi
+
+    # Install Spotify
+    wait_4_skip "Spotify"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask spotify
+    fi
+
+    # Install Google Chrome
+    wait_4_skip "Google Chrome"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask google-chrome
+    fi
+
+    # Install Google Drive
+    wait_4_skip "Google Drive"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask google-drive
+    fi
+
+    # Install Microsoft Word
+    wait_4_skip "Microsoft Word"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask microsoft-word
+    fi
+
+    # Install Microsoft PowerPoint
+    wait_4_skip "Microsoft PowerPoint"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask microsoft-powerpoint
+    fi
+
+    # Install Microsoft Excel
+    wait_4_skip "Microsoft Excel"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask microsoft-excel
+    fi
+
+    # Install Logitech Options+
+    wait_4_skip "Logitech Options+"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask logi-options-plus
     fi
 
 
@@ -283,5 +395,7 @@ main "$@"
 # DEPRECATED INSTALLATION METHODS:
 # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 #
 #!EOF
