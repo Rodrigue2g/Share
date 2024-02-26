@@ -384,6 +384,7 @@ main(){
 
 
     # End of setup
+    echo
     complete "MacOS setup completed"
 }
 
