@@ -53,6 +53,7 @@ warn(){
 notice(){
     printf "${tty_rose}Notice${tty_reset}: %s\n" "$(chomp "$1")"
 }
+
 complete(){
     printf "${tty_green}Success${tty_reset}: %s\n" "$(chomp ${tty_bold}"$1"${tty_reset})"
     echo
@@ -174,6 +175,9 @@ main(){
         echo "Xcode Command Line Tools are already installed."
     fi
 
+    # Start by installing formulas
+    printf "${tty_rose}Begining to install formulas${tty_reset}: %s\n"
+
     # Install python
     wait_4_skip "python"
     s=$?
@@ -207,12 +211,65 @@ main(){
         brew_install mongodb-community@7.0
     fi
 
+    # Move on to casks
+    printf "${tty_rose}Now installing casks (GUI Applications)${tty_reset}: %s\n"
+
     # Install Zoom
     wait_4_skip "Zoom"
     s=$?
     if [ $s -eq 0 ]; then
         brew_install_cask zoom
     fi
+
+    # Install Webex
+    wait_4_skip "Webex"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask webex
+    fi
+
+    # Install Slack
+    wait_4_skip "Slack"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask slack
+    fi
+
+    # Install VSCode
+    wait_4_skip "VS Code (Microsoft Visual Studio Code)"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask visual-studio-code
+    fi
+
+    # Install MongoDB Compass
+    wait_4_skip "MongoDB Compass"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask mongodb-compass
+    fi
+
+    # Install LTSpice
+    wait_4_skip "LTSpice"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask ltspice
+    fi
+
+    # Install Docker
+    wait_4_skip "Docker"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask docker
+    fi
+
+    # Install GitHub Desktop
+    wait_4_skip "GitHub Desktop"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask github
+    fi
+
 
     # End of setup
     complete "MacOS setup completed"
