@@ -176,7 +176,7 @@ main(){
     fi
 
     # Start by installing formulas
-    printf "${tty_rose}Begining to install formulas${tty_reset}: %s\n"
+    printf "\n${tty_rose}Begining to install formulas:${tty_reset}%s\n"
 
     # Install python
     wait_4_skip "python"
@@ -212,7 +212,7 @@ main(){
     fi
 
     # Move on to casks
-    printf "${tty_rose}Now installing casks (GUI Applications)${tty_reset}: %s\n"
+    printf "\n${tty_rose}Now installing casks (GUI Applications):${tty_reset}%s\n"
 
     # Install Zoom
     wait_4_skip "Zoom"
