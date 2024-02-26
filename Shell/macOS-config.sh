@@ -161,7 +161,7 @@ main(){
     # Install node.js
     wait_4_skip "node.js"
     s=$?
-    if [ $skip -eq 0 ]; then
+    if [ $s -eq 0 ]; then
         brew_install node
     fi
 
