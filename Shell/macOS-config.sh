@@ -138,8 +138,15 @@ wait_for_user(){
 main(){
     #local -r dir=$(dirname "${BASH_SOURCE[0]}")
     brew_update
+    # Install Xcode Toolchain
+    xcode-select --install
     brew_install python3
     brew_install node
+    brew_install openssl@1.1
+    
+    brew tap mongodb/brew
+    brew_install mongodb-community@7.0
+ 
     # The following lines enable Xcode extensions (Not mandatory)
     
 }
