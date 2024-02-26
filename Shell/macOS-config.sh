@@ -138,6 +138,7 @@ wait_4_skip(){
 }
 
 main(){
+    local s
     # Install or update HomeBrew
     brew_update
     
@@ -152,29 +153,29 @@ main(){
 
     # Install python
     wait_4_skip "python"
-    skip=$?
-    if [ $value -eq 0 ]; then
+    s=$?
+    if [ $s -eq 0 ]; then
         brew_install python3
     fi
     
     # Install node.js
     wait_4_skip "node.js"
-    skip=$?
-    if [ $value -eq 0 ]; then
+    s=$?
+    if [ $skip -eq 0 ]; then
         brew_install node
     fi
 
     # Install openssl
     wait_4_skip "openssl"
-    skip=$?
-    if [ $value -eq 0 ]; then
+    s=$?
+    if [ $s -eq 0 ]; then
         brew_install openssl@1.1
     fi
 
     # Install mongodb
     wait_4_skip "mongodb"
-    skip=$?
-    if [ $value -eq 0 ]; then
+    s=$?
+    if [ $s -eq 0 ]; then
         brew tap mongodb/brew
         brew_install mongodb-community@7.0
     fi
