@@ -135,44 +135,58 @@ wait_for_user(){
     fi
 }
 
-wait_before(){
-    local r=0
+wait_4_skip(){
+    local r=1
     echo
     echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}$1${tty_reset} or press any other key to ${tty_bold}skip${tty_reset} this step:"
     local c
     getc c
     # we test for \r and \n because some stuff does \r instead
     if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
-        r=1
+        r=0
     fi
     return $r
 }
 
 main(){
-    #local -r dir=$(dirname "${BASH_SOURCE[0]}")
+    # Install or update HomeBrew
     brew_update
     
     # Install Xcode Toolchain
-    wait_before "Xcode Toolchain"
+    wait_4_skip "Xcode Toolchain"
     skip=$?
-    xcode-select --install
+    if [ $value -eq 0 ]; then
+        xcode-select --install
+    fi
 
     # Install python
-    wait_before "python"
-    brew_install python3
+    wait_4_skip "python"
+    skip=$?
+    if [ $value -eq 0 ]; then
+        brew_install python3
+    fi
     
     # Install node.js
-    wait_before "node.js"
-    brew_install node
+    wait_4_skip "node.js"
+    skip=$?
+    if [ $value -eq 0 ]; then
+        brew_install node
+    fi
 
     # Install openssl
-    wait_before "openssl"
-    brew_install openssl@1.1
+    wait_4_skip "openssl"
+    skip=$?
+    if [ $value -eq 0 ]; then
+        brew_install openssl@1.1
+    fi
 
     # Install mongodb
-    wait_before "mongodb"
-    brew tap mongodb/brew
-    brew_install mongodb-community@7.0
+    wait_4_skip "mongodb"
+    skip=$?
+    if [ $value -eq 0 ]; then
+        brew tap mongodb/brew
+        brew_install mongodb-community@7.0
+    fi
 
     # End of setup
     complete "MacOS setup completed"
@@ -186,11 +200,5 @@ main "$@"
 # DEPRECATED INSTALLATION METHODS:
 # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-<<LINKS
-https://developer-old.gnome.org/gtkmm-tutorial/3.24/index.html
-https://medium.com/@ivyzhou/how-to-use-gtkmm-with-glade-in-xcode-69745c8401a9
-https://brew.sh
-https://developpaper.com/macos-c-rapidly-develops-native-desktop-programs-using-gtkmm-gui/
-LINKS
 #
 #!EOF
