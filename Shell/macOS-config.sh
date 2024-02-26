@@ -135,20 +135,44 @@ wait_for_user(){
     fi
 }
 
+wait_before(){
+    local c
+    echo
+    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}$1${tty_reset} or press any other key to ${tty_bold}skip${tty_reset} this step:"
+    getc c
+    # we test for \r and \n because some stuff does \r instead
+    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
+        #complete "Installation of gtkmm completed"
+    fi
+}
+
 main(){
     #local -r dir=$(dirname "${BASH_SOURCE[0]}")
     brew_update
-    # Install Xcode Toolchain
-    xcode-select --install
-    brew_install python3
-    brew_install node
-    brew_install openssl@1.1
     
+    # Install Xcode Toolchain
+    wait_before "Xcode Toolchain"
+    xcode-select --install
+
+    # Install python
+    wait_before "python"
+    brew_install python3
+    
+    # Install node.js
+    wait_before "node.js"
+    brew_install node
+
+    # Install openssl
+    wait_before "openssl"
+    brew_install openssl@1.1
+
+    # Install mongodb
+    wait_before "mongodb"
     brew tap mongodb/brew
     brew_install mongodb-community@7.0
- 
-    # The following lines enable Xcode extensions (Not mandatory)
-    
+
+    # End of setup
+    complete "MacOS setup completed"
 }
 
 main "$@"
