@@ -131,7 +131,7 @@ wait_4_skip(){
     local c
     getc c
     # we test for \r and \n because some stuff does \r instead
-    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
+    if [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
         r=0
     fi
     return $r
