@@ -162,7 +162,11 @@ main(){
     wait_4_skip "node.js"
     s=$?
     if [ $s -eq 0 ]; then
-        brew_install node
+        brew_install nvm
+        echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc
+        source ~/.zshrc
+        nvm install --lts
     fi
 
     # Install openssl
