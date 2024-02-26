@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=0.0.1
+VERSION=1.0.0
 set -u
 
 # string formatters
@@ -124,17 +124,6 @@ getc(){
   /bin/stty "${save_state}"
 }
 
-wait_for_user(){
-    local c
-    echo
-    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}Xcode${tty_reset} extensions or press any other key to ${tty_bold}end${tty_reset} the installation:"
-    getc c
-    # we test for \r and \n because some stuff does \r instead
-    if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
-        complete "Installation of gtkmm completed"
-    fi
-}
-
 wait_4_skip(){
     local r=1
     echo
@@ -153,10 +142,12 @@ main(){
     brew_update
     
     # Install Xcode Toolchain
-    wait_4_skip "Xcode Toolchain"
-    skip=$?
-    if [ $value -eq 0 ]; then
+    # Check if Xcode Command Line Tools are installed
+    if ! command -v xcode-select >/dev/null; then
+        echo "Xcode Command Line Tools are not installed. Installing..."
         xcode-select --install
+    else
+        echo "Xcode Command Line Tools are already installed."
     fi
 
     # Install python
