@@ -136,14 +136,16 @@ wait_for_user(){
 }
 
 wait_before(){
-    local c
+    local r=0
     echo
     echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you wish to install ${tty_bold}$1${tty_reset} or press any other key to ${tty_bold}skip${tty_reset} this step:"
+    local c
     getc c
     # we test for \r and \n because some stuff does \r instead
     if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
-        #complete "Installation of gtkmm completed"
+        r=1
     fi
+    return $r
 }
 
 main(){
@@ -152,6 +154,7 @@ main(){
     
     # Install Xcode Toolchain
     wait_before "Xcode Toolchain"
+    skip=$?
     xcode-select --install
 
     # Install python
