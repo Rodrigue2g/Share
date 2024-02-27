@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=1.2.1
+VERSION=1.3.0
 set -u
 
 # string formatters
@@ -190,9 +190,10 @@ main(){
     s=$?
     if [ $s -eq 0 ]; then
         brew_install nvm
-        echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
-        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc
-        source ~/.zshrc
+        NVM_PATH="$(brew --prefix nvm)/nvm.sh"
+        sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
+        sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+        source /etc/zshrc
         nvm install --lts
     fi
 
