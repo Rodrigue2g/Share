@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=1.2.0
+VERSION=1.2.1
 set -u
 
 # string formatters
@@ -209,6 +209,20 @@ main(){
     if [ $s -eq 0 ]; then
         brew tap mongodb/brew
         brew_install mongodb-community@7.0
+    fi
+
+    # Install java
+    wait_4_skip "java"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install java
+    fi
+
+    # Install ngrok
+    wait_4_skip "ngrok"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install ngrok/ngrok/ngrok
     fi
 
     # Move on to casks
