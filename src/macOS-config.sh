@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=1.3.0
+VERSION=1.4.0
 set -u
 
 # string formatters
@@ -178,11 +178,24 @@ main(){
     # Start by installing formulas
     printf "\n${tty_rose}Begining to install formulas:${tty_reset}%s\n"
 
-    # Install python
-    wait_4_skip "python"
+    # Install python with miniconda
+    wait_4_skip "python with miniconda"
     s=$?
     if [ $s -eq 0 ]; then
-        brew_install python3
+        brew_install_cask miniconda 
+        conda install python  # Better for jupyter notebooks and virtual env 
+        # brew_install python3  -- Not a good way to install python --
+        pip install --upgrade pip
+    fi
+
+    # Install python packages
+    wait_4_skip "Commons python packages"
+    s=$?
+    if [ $s -eq 0 ]; then
+        pip install numpy
+        pip install pandas
+        pip install matplotlib
+        pip install scipy
     fi
     
     # Install node.js
