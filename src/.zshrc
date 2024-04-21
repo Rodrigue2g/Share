@@ -4,8 +4,8 @@ __conda_setup="$('/Users/rodriguedeguerre/opt/anaconda3/bin/conda' 'shell.zsh' '
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/rodriguedeguerre/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/rodriguedeguerre/opt/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/usr/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/usr/opt/anaconda3/etc/profile.d/conda.sh"
     else
         export PATH="/Users/rodriguedeguerre/opt/anaconda3/bin:$PATH"
     fi
