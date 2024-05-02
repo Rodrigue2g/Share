@@ -410,6 +410,12 @@ main(){
         brew_install_cask logi-options-plus
     fi
 
+    # Install TexShop
+    wait_4_skip "TexShop (LaTex editor)"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask texshop
+    fi
 
     # End of setup
     echo
