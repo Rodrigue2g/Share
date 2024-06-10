@@ -173,6 +173,77 @@ wait_4_skip(){
     return $r
 }
 
+formulas=("python", "pythonPKG","nodejs", "openssl", "mongodb", "java", "ngrok", )
+casks=("zoom", "webex","slack", "github", "vsc", "docker", "vbox", "vmware", "wireshark", "mongoDBCompass", "SFSymbols", "ltspice", "kikad", "arduino", "telegram", "messenger", "whatsapp", "spotify", "chrome", "drive", "word", "powerpoint", "excel", "logitechoptionsplus", "texshop",)
+
+fchoices=()
+cchoices=()
+
+fastForward(){
+    local r=1
+    echo
+    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you want to proceed ${tty_bold}Step by Step{tty_reset} or press any other key to ${tty_bold}fastforward${tty_reset} the installation process."
+    local c
+    getc c
+    # we test for \r and \n because some stuff does \r instead
+    if [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
+        r=0
+    fi
+    if [ $r -eq 0 ]; then
+        return
+    fi
+    
+    # Start by selecting formulas
+    printf "\n${tty_rose}Select the formulas you wish to install:${tty_reset}%s\n"
+    
+    for formula in "${formulas[@]}"; do
+        while true; do
+            read -p "Download $formula? [y/n]: " choice
+            case "$choice" in
+                y|Y )
+                    fchoices+=("$formula")
+                    break
+                    ;;
+                n|N )
+                    break
+                    ;;
+                * )
+                    echo "Please answer y or n."
+                    ;;
+            esac
+        done
+    done
+
+    # Then select casks
+    printf "\n${tty_rose}Select the casks you wish to install:${tty_reset}%s\n"
+
+    for cask in "${casks[@]}"; do
+        while true; do
+            read -p "Download $cask? [y/n]: " choice
+            case "$choice" in
+                y|Y )
+                    cchoices+=("$cask")
+                    break
+                    ;;
+                n|N )
+                    break
+                    ;;
+                * )
+                    echo "Please answer y or n."
+                    ;;
+            esac
+        done
+    done
+
+    echo "You have chosen to download the following formulas: ${fchoices[@]}"
+    echo
+    echo "And the following casks: ${cchoices[@]}"
+
+    # End of setup
+    echo
+    complete "MacOS setup completed"
+}
+
 main(){
     local s
     # Install or update HomeBrew
@@ -186,6 +257,8 @@ main(){
     else
         echo "Xcode Command Line Tools are already installed."
     fi
+
+    fastForward
 
     # Start by installing formulas
     printf "\n${tty_rose}Begining to install formulas:${tty_reset}%s\n"
