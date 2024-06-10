@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=1.4.0
+VERSION=2.0.1
 set -u
 
 # string formatters
@@ -174,13 +174,18 @@ wait_4_skip(){
     return $r
 }
 
+<<WARNING
+############## This section must be changed very carefully! Each formula/cask MUST have an associated common name (display name) and the ORDER MATTERS! (replica of a dictionary) ##############
+WARNING
 formulas=("python" "python-pkg" "nodejs" "openssl@1.1" "mongodb" "java" "ngrok")
 fcn=("Python with miniconda" "Commons python packages" "node.js" "openssl" "mongodb" "java" "ngrok")
 casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop")
 ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)")
+<<WARNING
+############## DO NOT TOUCH ABOVE WITHOUT CARE ##############
+WARNING
 
-#"Virtual Box"
-
+# Leave empty (unless you would want some defaults download)
 fchoices=()
 cchoices=()
 
@@ -311,6 +316,7 @@ main(){
         echo "Xcode Command Line Tools are already installed."
     fi
 
+    # User can now select everything first to then download everything at once. -- new formulas/caks must now be added both in 'main()' and 'fastForward()'
     fastForward
 
     # Start by installing formulas
