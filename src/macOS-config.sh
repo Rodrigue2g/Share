@@ -75,6 +75,18 @@ else
     abort "macOS config should only run on macOS."
 fi
 
+#Architecture check
+arch="$(uname -m)"
+if [ "$arch" = "arm64" ]; then
+    #echo "ARM64 architecture (Apple Silicon)."
+    :
+elif [ "$arch" = "x86_64" ]; then
+    #echo "x86_64 architecture (Intel)."
+    :
+else
+    abort "Unknown architecture: $arch"
+fi
+
 brew_update(){
     if [ "$(command -v brew)" ]; then
         warn "Homebrew already exists"
@@ -288,7 +300,11 @@ main(){
     wait_4_skip "Virtual Box"
     s=$?
     if [ $s -eq 0 ]; then
-        warn "Virtual Box is only available for x86 architectures"
+        if [ "$arch" = "arm64" ]; then
+            warn "Virtual Box is only available for x86 architectures"
+        elif [ "$arch" = "x86_64" ]; then
+            brew_install_cask virtualbox
+        fi
     fi
 
     # Install VMware Horizon Client
