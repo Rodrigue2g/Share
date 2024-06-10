@@ -25,6 +25,7 @@ tty_mkbold() { tty_escape "1;$1"; }
 tty_underline="$(tty_escape "4;39")"
 tty_red="$(tty_mkbold 31)"
 tty_green="$(tty_mkbold 32)"
+tty_yellow="$(tty_mkbold 33)"
 tty_blue="$(tty_mkbold 34)"
 tty_rose="$(tty_mkbold 35)"
 tty_tur="$(tty_mkbold 36)"
@@ -141,7 +142,7 @@ brew_upgrade_cask(){
         ohai "Upgrading formula..."
         brew upgrade --cask ${1}
         ohai "Cleaning up..."
-        brew cleanup --cask ${1}
+        brew cleanup ${1}
     fi
 }
 
@@ -173,83 +174,124 @@ wait_4_skip(){
     return $r
 }
 
-formulas=("python", "pythonPKG","nodejs", "openssl", "mongodb", "java", "ngrok", )
-casks=("zoom", "webex","slack", "github", "vsc", "docker", "vbox", "vmware", "wireshark", "mongoDBCompass", "SFSymbols", "ltspice", "kikad", "arduino", "telegram", "messenger", "whatsapp", "spotify", "chrome", "drive", "word", "powerpoint", "excel", "logitechoptionsplus", "texshop",)
+formulas=("python" "python-pkg" "nodejs" "openssl@1.1" "mongodb" "java" "ngrok")
+fcn=("Python with miniconda" "Commons python packages" "node.js" "openssl" "mongodb" "java" "ngrok")
+casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop")
+ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)")
+
+#"Virtual Box"
 
 fchoices=()
 cchoices=()
 
 fastForward(){
     local r=1
-    echo
-    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you want to proceed ${tty_bold}Step by Step${tty_reset} or press any other key to ${tty_bold}fastforward${tty_reset} the installation process."
-    local c
-    getc c
-    # we test for \r and \n because some stuff does \r instead
-    if [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
-        r=0
-    fi
+    while true; do
+        read -p "Do you want to ${tty_bold}fastforward${tty_reset} the installation process (${tty_bold}y${tty_reset}) or proceed ${tty_bold}Step by Step${tty_reset} (${tty_bold}n${tty_reset})? [y/n]: " choice
+        case "$choice" in
+            y|Y )
+                r=1
+                break
+                ;;
+            n|N )
+                r=0
+                break
+                ;;
+            * )
+                echo "Please answer y or n."
+                ;;
+        esac
+    done
+
     if [ $r -eq 0 ]; then
         return
     fi
-    
+
+    local s
     # Start by selecting formulas
     printf "\n${tty_rose}Select the formulas you wish to install:${tty_reset}%s\n"
-    
-    for formula in "${formulas[@]}"; do
-        while true; do
-            read -p "Download $formula? [y/n]: " choice
-            case "$choice" in
-                y|Y )
-                    fchoices+=("$formula")
-                    break
-                    ;;
-                n|N )
-                    break
-                    ;;
-                * )
-                    echo "Please answer y or n."
-                    ;;
-            esac
-        done
+
+    for i in "${!formulas[@]}"; do
+        wait_4_skip "${fcn[$i]}"
+        s=$?
+        if [ $s -eq 0 ]; then
+            printf "${tty_green}Selected${tty_reset}%s"
+            fchoices+=("${formulas[$i]}")
+        else 
+            printf "${tty_yellow}Not selected${tty_reset}%s"
+        fi
     done
 
     # Then select casks
     printf "\n${tty_rose}Select the casks you wish to install:${tty_reset}%s\n"
 
-    for cask in "${casks[@]}"; do
-        while true; do
-            read -p "Download $cask? [y/n]: " choice
-            case "$choice" in
-                y|Y )
-                    cchoices+=("$cask")
-                    break
-                    ;;
-                n|N )
-                    break
-                    ;;
-                * )
-                    echo "Please answer y or n."
-                    ;;
-            esac
+    for i in "${!casks[@]}"; do
+        wait_4_skip "${ccn[$i]}"
+        s=$?
+        if [ $s -eq 0 ]; then
+            printf "${tty_green}Selected${tty_reset}%s"
+            cchoices+=("${casks[$i]}")
+        else 
+            printf "${tty_yellow}Not selected${tty_reset}%s"
+        fi
+    done
+
+    #Now install the selected stuff
+    echo
+
+    if [ ${#fchoices[@]} -eq 0 ]; then
+        warn "No formulas selected for download."
+    else
+        printf "\n${tty_rose}Installing formulas:${tty_reset}%s\n"
+        echo "You have chosen to download the following formulas: ${fchoices[@]}"
+        for formula in "${fchoices[@]}"; do
+            if [ "$formula" = "python" ]; then
+                brew_install_cask miniconda 
+                conda install python  # Better for jupyter notebooks and virtual env 
+                # brew_install python3  -- Not a good way to install python --
+                pip install --upgrade pip
+            elif [ "$formula" = "python-pkg" ]; then
+                notice "Installing common python packages"
+                pip install numpy
+                pip install pandas
+                pip install matplotlib
+                pip install scipy
+            elif [ "$formula" = "nodejs" ]; then
+                brew_install nvm
+                NVM_PATH="$(brew --prefix nvm)/nvm.sh"
+                sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
+                sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+                source /etc/zshrc
+                nvm install --lts
+            elif [ "$formula" = "mongodb" ]; then
+                brew tap mongodb/brew
+                brew_install mongodb-community@7.0
+            elif [ "$formula" = "ngrok" ]; then
+                brew_install ngrok/ngrok/ngrok
+            else
+                brew_install "$formula"
+            fi
         done
-    done
+    fi
 
-    echo
-    echo "You have chosen to download the following formulas: ${fchoices[@]}"
-    echo
-    echo "And the following casks: ${cchoices[@]}"
-
-    for formula in "${fchoices[@]}"; do
-        #brew_install formula
-        :
-    done
-
-    for cask in "${cchoices[@]}"; do
-        #brew_install_cask cask
-        :
-    done
-
+    if [ ${#cchoices[@]} -eq 0 ]; then
+        warn "No casks selected for download."
+    else
+        printf "\n${tty_rose}Installing casks:${tty_reset}%s\n"
+        echo "You have chosen to download the following casks: ${cchoices[@]}"
+        for cask in "${cchoices[@]}"; do
+            if [ "$cask" = "virtualbox" ]; then
+                if [ "$arch" = "arm64" ]; then
+                    warn "Virtual Box is only available for x86 architectures"
+                elif [ "$arch" = "x86_64" ]; then
+                    brew_install_cask virtualbox
+                fi
+            else
+                brew_install_cask "$cask"
+            fi
+        done
+    fi
+    
     # End of setup
     echo
     complete "MacOS setup completed"
