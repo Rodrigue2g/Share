@@ -182,7 +182,7 @@ cchoices=()
 fastForward(){
     local r=1
     echo
-    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you want to proceed ${tty_bold}Step by Step{tty_reset} or press any other key to ${tty_bold}fastforward${tty_reset} the installation process."
+    echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} if you want to proceed ${tty_bold}Step by Step${tty_reset} or press any other key to ${tty_bold}fastforward${tty_reset} the installation process."
     local c
     getc c
     # we test for \r and \n because some stuff does \r instead
@@ -235,9 +235,20 @@ fastForward(){
         done
     done
 
+    echo
     echo "You have chosen to download the following formulas: ${fchoices[@]}"
     echo
     echo "And the following casks: ${cchoices[@]}"
+
+    for formula in "${fchoices[@]}"; do
+        #brew_install formula
+        :
+    done
+
+    for cask in "${cchoices[@]}"; do
+        #brew_install_cask cask
+        :
+    done
 
     # End of setup
     echo
