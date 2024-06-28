@@ -1,66 +1,81 @@
 #! bin/bash
+# Install julia with conda to run jupyter notebooks on a linux (ubuntu) server
+# Disclaimer: This is a pain in the ass (MbedTLS is messing everything up)
 #
-curl -O https://repo.anaconda.com/archive/Anaconda3-2023.03-Linux-x86_64.sh
 
-bash Anaconda3-2023.03-Linux-x86_64.sh
+# First, start by installing anaconda on your server
+# Fetch the installer
+$ curl -O https://repo.anaconda.com/archive/Anaconda3-2023.03-Linux-x86_64.sh
+# Then run the installation script
+$ bash Anaconda3-2023.03-Linux-x86_64.sh
 
-conda init
+# The next few steps might be itterative (it sometimes takes more steps&time to have the bash config properly configured)
+# Init conda
+$ conda init
+# Reload shell
+$ source ~/.bashrc
 
-source ~/.bashrc
+# If needed (conda command not found) edit yoouur bash config
+$ vim .bashrc
+$ export PATH="$HOME/anaconda3/bin:$PATH"
+# Reload shell
+$ source ~/.bashrc
 
-vim .bashrc
-
-export PATH="$HOME/anaconda3/bin:$PATH"
-
-source ~/.bashrc
-
-conda init
-
-conda init bash
-
-source ~/.bashrc
-
-
-
-conda create -n juliaenv
-
-conda activate juliaenv
-
-conda install -c conda-forge julia
-
-conda install -c conda-forge notebook
-
-conda install -c conda-forge nb_conda_kernels
-
-conda install -c conda-forge jupyterlab
-
-conda install -c conda-forge ipykernel
+# If needed 
+$ conda init bash
+# Reload shell
+$ source ~/.bashrc
 
 
-jupyter notebook --no-browser --port=8889 --allow-root
-ssh -L 8888:localhost:8889 root@185.216.27.47
+# Create a new environnement
+$ conda create -n <env>
+# Activate it
+$ conda activate <env>
+
+# This might not be mandatory but some comments mentioned the need of cmake for MbedTLS to run smoothly
+$ sudo apt-get update
+$ sudo apt-get install libmbedtls-dev
+$ sudo apt-get install cmake
+
+# !! Important step !!
+# Do NOT install julia like that:
+$ conda install -c conda-forge julia
+# Instead install it from
+$ curl -fsSL https://install.julialang.org | sh
+
+# Then deactive the conda env, reload your shell and re-activate your conda env
+$ conda deactivate 
+$ source ~/.bashrc
+$ conda activate <env>
+
+# This step might not be mandatory, but if you want to make sure Julia was installed correctly
+# you can run these few steps to make sure the "MbedTLS" package won't cause any trouble in the nex steps
+$ julia
+$ import Pkg
+$ Pkg.add("MbedTLS")
+$ Pkg.build("MbedTLS"; verbose=true)
+$ using MbedTLS
+$ md = MbedTLS.MD(MbedTLS.MD_SHA256)
+$ exit()
+
+# Then you can install all your required packages (here is a non-exhaustive list) 
+$ conda install -c conda-forge notebook
+$ conda install -c conda-forge nb_conda_kernels
+$ conda install -c conda-forge jupyterlab
+$ conda install -c conda-forge ipykernel
+
+# And install IJulia package from Julia CLI
+$ julia
+$ using Pkg
+$ Pkg.add("IJulia")
+$ exit()
 
 
-import Pkg
-Pkg.update()
-Pkg.build("IJulia")
-Pkg.build("MbedTLS")
+# In the same conda env, you can now run
+$ jupyter notebook --no-browser --port=8889 --allow-root
 
+# And on your local machine you can run the following in order to access the jupyter notebook GUI
+$ ssh -L 8888:localhost:8889 <user>@<server_ip>
 
-sudo apt-get update
-sudo apt-get install libmbedtls-dev
-
-
-sudo apt-get update
-sudo apt-get install cmake
-
-
-curl -fsSL https://install.julialang.org | sh
-
-conda deactivate 
-source ~/.bashrc
-conda activate <env>
-
-julia
-
-
+# If you have followed all the steps correctly you should now be able to access your jupyter notebooks runing on your server
+# http://localhost:8888/tree?token=secret_token
