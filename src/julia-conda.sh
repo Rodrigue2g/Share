@@ -85,4 +85,4 @@ $ conda deactivate
 $ conda env remove -n <env_name>
 # Make sure it was well removed
 $ conda env list
-# Then you can start again from <Create a new environnement> step
+# Then you can start again from <Create a new environnement> step ([https://github.com/Rodrigue2g/Share/blob/b8239ce5697810bce93db99b239f97b53667a229/src/julia-conda.sh#L30])
