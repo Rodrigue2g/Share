@@ -28,9 +28,9 @@ $ source ~/.bashrc
 
 
 # Create a new environnement
-$ conda create -n <env>
+$ conda create -n <env_name>
 # Activate it
-$ conda activate <env>
+$ conda activate <env_name>
 
 # This might not be mandatory but some comments mentioned the need of cmake for MbedTLS to run smoothly
 $ sudo apt-get update
@@ -46,7 +46,7 @@ $ curl -fsSL https://install.julialang.org | sh
 # Then deactive the conda env, reload your shell and re-activate your conda env
 $ conda deactivate 
 $ source ~/.bashrc
-$ conda activate <env>
+$ conda activate <env_name>
 
 # This step might not be mandatory, but if you want to make sure Julia was installed correctly
 # you can run these few steps to make sure the "MbedTLS" package won't cause any trouble in the nex steps
@@ -79,3 +79,10 @@ $ ssh -L 8888:localhost:8889 <user>@<server_ip>
 
 # If you have followed all the steps correctly you should now be able to access your jupyter notebooks runing on your server
 # http://localhost:8888/tree?token=secret_token
+
+# If you want to remove your conda env for a fresh start
+$ conda deactivate
+$ conda env remove -n <env_name>
+# Make sure it was well removed
+$ conda env list
+# Then you can start again from <Create a new environnement> step
