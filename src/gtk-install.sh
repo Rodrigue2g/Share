@@ -1,7 +1,7 @@
 #!/bin/bash
 # gtk-install by DESIGNØ®
 # This Software is copyright DESIGNØ®, all rights reserved.
-# Copyright © 2022 DESIGNØ SASU.
+# Copyright © 2024 DESIGNØ GROUP LTD.
 <<LICENSE
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
