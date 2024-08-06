@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Passkeys</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        ol {
+            margin: 0 0 20px 20px;
+            padding-left: 20px;
+        }
+        .settings-link {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .settings-link:hover {
+            background-color: #0056b3;
+        }
+        .steps {
+            margin-top: 20px;
+        }
+        .support {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+        }
+        .logo {
+            height: 20px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Deleting a Passkey</h2>
+        <p>Your passkey has been successfully deleted by the server, but you must now delete it on your device.<br><br>Follow these steps in order to do so:</p>
+        <div class="steps">
+            <h3>On iOS:</h3>
+            <p>Click the link below to open the Passkeys section in your iOS settings:</p>
+            <a class="settings-link" href="x-apple.systempreferences:com.apple.Passwords-Settings.extension">Go to Settings</a>
+            <h3>Next Steps</h3>
+            <ol>
+                <li>Log in with Face ID <img src="faceid.png" alt="Face ID" class="logo"> or Touch ID <img src="touchid.png" alt="Touch ID" class="logo"></li>
+                <li>In the search-bar at the top, search for <a href="accounts.designø.com">accounts.designø.com</a></li>
+                <li>Then on the selected passkey, click on info (i) then Delete Passkey</li>
+            </ol>
+        </div>
+        <div class="steps">
+            <h3>For Android:</h3>
+            <ol>
+                <li>Open the Chrome app on your Android device.</li>
+                <li>Tap on the three dots in the top-right corner to open the menu.</li>
+                <li>Tap on <strong>Settings</strong>.</li>
+                <li>Tap on <strong>Passwords</strong>.</li>
+                <li>Find <strong>Designø.com</strong> and delete the passkey.</li>
+            </ol>
+        </div>
+        <div class="support">
+            <p>If you need further assistance, please contact our support team at <a href="mailto:support@designø.com">support@designø.com</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
