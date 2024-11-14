@@ -44,7 +44,8 @@ shell_join(){
     done
 }
 chomp(){
-    printf "%s" "${1/"$'\n'"/}"
+    #printf "%s" "${1/"$'\n'"/}"
+    printf "%s" "${1//$'\n'/}"
 }
 ohai(){
     printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
@@ -197,14 +198,14 @@ wait_4_skip(){
 }
 
 <<WARNING
-############## This section must be changed very carefully! Each formula/cask MUST have an associated common name (display name) and the ORDER MATTERS! (replica of a dictionary) ##############
 WARNING
+############## This section must be changed very carefully! Each formula/cask MUST have an associated common name (display name) and the ORDER MATTERS! (replica of a dictionary) ##############
 formulas=("python" "python-pkg" "nodejs" "openssl@1.1" "mongodb" "java" "ngrok")
 fcn=("Python with miniconda" "Commons python packages" "node.js (with nvm)" "openssl" "mongodb" "java" "ngrok")
 casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop" "sage")
 ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)" "Sage Math")
-<<WARNING
 ############## DO NOT TOUCH ABOVE WITHOUT CARE ##############
+<<WARNING
 WARNING
 
 # Leave empty (unless you would want some defaults download)
