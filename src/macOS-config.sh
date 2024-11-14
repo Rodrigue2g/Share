@@ -93,6 +93,21 @@ else
     abort "Unknown architecture: $arch"
 fi
 
+if [ -z "$PS1" ]; then
+    INTERACTIVE_MODE=0
+else
+    INTERACTIVE_MODE=1
+fi
+
+if [[ "$0" == "-zsh" || "$0" == "zsh" ]]; then
+    echo "You are using zsh"
+    ZSH_SHELL=1
+elif [[ "$0" == "-bash" ]] || [[ "$0" == "bash" ]];
+    echo "You are not using zsh"
+    BASH_SHELL=1
+fi
+
+
 brew_update(){
     if [ "$(command -v brew)" ]; then
         warn "Homebrew already exists"
@@ -198,22 +213,42 @@ cchoices=()
 
 fastForward(){
     local r=1
-    while true; do
-        read -p "Do you want to ${tty_bold}fastforward${tty_reset} the installation process (${tty_bold}y${tty_reset}) or proceed ${tty_bold}Step by Step${tty_reset} (${tty_bold}n${tty_reset})? [y/n]: " choice
-        case "$choice" in
-            y|Y )
-                r=1
-                break
-                ;;
-            n|N )
-                r=0
-                break
-                ;;
-            * )
-                echo "Please answer y or n."
-                ;;
-        esac
-    done
+    if [ "${ZSH_SHELL:-0}" -eq 1 ]; then
+        while true; do
+            echo "Do you want to ${tty_bold}fastforward${tty_reset} the installation process (${tty_bold}y${tty_reset}) or proceed ${tty_bold}Step by Step${tty_reset} (${tty_bold}n${tty_reset})? [y/n]: "
+            read choice
+            case "$choice" in
+                y|Y )
+                    r=1
+                    break
+                    ;;
+                n|N )
+                    r=0
+                    break
+                    ;;
+                * )
+                    echo "Please answer y or n."
+                    ;;
+            esac
+        done
+    else
+        while true; do
+            read -p "Do you want to ${tty_bold}fastforward${tty_reset} the installation process (${tty_bold}y${tty_reset}) or proceed ${tty_bold}Step by Step${tty_reset} (${tty_bold}n${tty_reset})? [y/n]: " choice
+            case "$choice" in
+                y|Y )
+                    r=1
+                    break
+                    ;;
+                n|N )
+                    r=0
+                    break
+                    ;;
+                * )
+                    echo "Please answer y or n."
+                    ;;
+            esac
+        done
+    fi
 
     if [ $r -eq 0 ]; then
         return
