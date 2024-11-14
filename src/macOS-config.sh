@@ -565,6 +565,13 @@ main(){
         brew_install_cask texshop
     fi
 
+    # Install SageMath
+    wait_4_skip "Sage Math"
+    s=$?
+    if [ $s -eq 0 ]; then
+        brew_install_cask sage
+    fi
+
     # End of setup
     echo
     complete "MacOS setup completed"
