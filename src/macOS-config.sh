@@ -253,16 +253,19 @@ fastForward(){
         echo "You have chosen to download the following formulas: ${fchoices[@]}"
         for formula in "${fchoices[@]}"; do
             if [ "$formula" = "python" ]; then
+                py=1
                 brew_install_cask miniconda 
                 conda install python  # Better for jupyter notebooks and virtual env 
                 # brew_install python3  -- Not a good way to install python --
                 pip install --upgrade pip
-            elif [ "$formula" = "python-pkg" ]; then
+            elif [[ "${py:-0}" -eq 1 && "$formula" = "python-pkg" ]]; then
                 notice "Installing common python packages"
                 pip install numpy
                 pip install pandas
                 pip install matplotlib
                 pip install scipy
+            elif [[ "${py:-0}" -ne 1 && "$formula" = "python-pkg" ]]; then
+                warn "You must install python before installing common python packages"
             elif [ "$formula" = "nodejs" ]; then
                 brew_install nvm
                 NVM_PATH="$(brew --prefix nvm)/nvm.sh"
@@ -336,18 +339,21 @@ main(){
         conda install python  # Better for jupyter notebooks and virtual env 
         # brew_install python3  -- Not a good way to install python --
         pip install --upgrade pip
+        py=1
     fi
 
     # Install python packages
     wait_4_skip "Commons python packages"
     s=$?
-    if [ $s -eq 0 ]; then
+    if [[ "${py:-0}" -eq 1 && $s -eq 0 ]]; then
         pip install numpy
         pip install pandas
         pip install matplotlib
         pip install scipy
+    elif [[ "${py:-0}" -ne 1 && $s -eq 0 ]]; then
+        warn "You must install python before installing common python packages"
     fi
-    
+
     # Install node.js
     wait_4_skip "node.js (with nvm)"
     s=$?
