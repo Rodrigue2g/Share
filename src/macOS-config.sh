@@ -102,7 +102,7 @@ fi
 if [[ "$0" == "-zsh" || "$0" == "zsh" ]]; then
     echo "You are using zsh"
     ZSH_SHELL=1
-elif [[ "$0" == "-bash" ]] || [[ "$0" == "bash" ]];
+elif [[ "$0" == "-bash" ]] || [[ "$0" == "bash" ]]; then
     echo "You are not using zsh"
     BASH_SHELL=1
 fi
