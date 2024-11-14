@@ -13,8 +13,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 LICENSE
 
 VERSION=2.0.1
-#set -u
-set +u
+set -u 
+#set +u
 
 # string formatters
 if [[ -t 1 ]]; then
