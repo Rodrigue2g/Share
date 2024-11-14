@@ -179,8 +179,8 @@ wait_4_skip(){
 WARNING
 formulas=("python" "python-pkg" "nodejs" "openssl@1.1" "mongodb" "java" "ngrok")
 fcn=("Python with miniconda" "Commons python packages" "node.js" "openssl" "mongodb" "java" "ngrok")
-casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop")
-ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)")
+casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop" "sage")
+ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)" "Sage Math")
 <<WARNING
 ############## DO NOT TOUCH ABOVE WITHOUT CARE ##############
 WARNING
