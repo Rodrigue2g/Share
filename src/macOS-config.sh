@@ -80,10 +80,10 @@ fi
 arch="$(uname -m)"
 if [ "$arch" = "arm64" ]; then
     #echo "ARM64 architecture (Apple Silicon)."
-    :
+    ARCH_ARM64=1
 elif [ "$arch" = "x86_64" ]; then
     #echo "x86_64 architecture (Intel)."
-    :
+    ARCH_X86_64=1
 else
     abort "Unknown architecture: $arch"
 fi
@@ -97,8 +97,10 @@ brew_update(){
         echo "Installing Hombrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         # For silicon macs:
-        echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.zshrc
-        source ~/.zshrc
+        if [ "${ARCH_ARM64:-0}" -eq 1 ]; then
+            echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.zshrc
+            source ~/.zshrc
+        fi
     fi
 }
 
@@ -178,7 +180,7 @@ wait_4_skip(){
 ############## This section must be changed very carefully! Each formula/cask MUST have an associated common name (display name) and the ORDER MATTERS! (replica of a dictionary) ##############
 WARNING
 formulas=("python" "python-pkg" "nodejs" "openssl@1.1" "mongodb" "java" "ngrok")
-fcn=("Python with miniconda" "Commons python packages" "node.js" "openssl" "mongodb" "java" "ngrok")
+fcn=("Python with miniconda" "Commons python packages" "node.js (with nvm)" "openssl" "mongodb" "java" "ngrok")
 casks=("zoom" "webex" "slack" "github" "visual-studio-code" "docker" "virtualbox" "vmware-horizon-client" "wireshark" "mongodb-compass" "sf-symbols" "ltspice" "kicad" "arduino-ide" "telegram" "messenger" "whatsapp" "spotify" "google-chrome" "google-drive" "microsoft-word" "microsoft-powerpoint" "microsoft-excel" "logi-options-plus" "texshop" "sage")
 ccn=("Zoom" "Webex" "Slack" "Github Desktop" "VS Code (Microsoft Visual Studio Code)" "Docker" "Virtual Box" "VMware Horizon Client" "Wireshark" "MongoDB Compass" "SF Symbols" "LTSpice" "KiCad" "Arduino (IDE)" "Telegram" "Facebook (Meta) Messenger" "Whatsapp" "Spotify" "Google Chrome" "Google Drive" "Microsoft Word" "Microsoft PowerPoint" "Microsoft Excel" "Logitech Options+" "TexShop (LaTex editor)" "Sage Math")
 <<WARNING
@@ -290,9 +292,9 @@ fastForward(){
         echo "You have chosen to download the following casks: ${cchoices[@]}"
         for cask in "${cchoices[@]}"; do
             if [ "$cask" = "virtualbox" ]; then
-                if [ "$arch" = "arm64" ]; then
+                if [ "${ARCH_ARM64:-0}" -eq 1 ]; then
                     warn "Virtual Box is only available for x86 architectures"
-                elif [ "$arch" = "x86_64" ]; then
+                elif [ "${ARCH_X86_64:-0}" -eq 1 ]; then
                     brew_install_cask virtualbox
                 fi
             else
@@ -347,7 +349,7 @@ main(){
     fi
     
     # Install node.js
-    wait_4_skip "node.js"
+    wait_4_skip "node.js (with nvm)"
     s=$?
     if [ $s -eq 0 ]; then
         brew_install nvm
@@ -440,9 +442,9 @@ main(){
     wait_4_skip "Virtual Box"
     s=$?
     if [ $s -eq 0 ]; then
-        if [ "$arch" = "arm64" ]; then
+        if [ "${ARCH_ARM64:-0}" -eq 1 ]; then
             warn "Virtual Box is only available for x86 architectures"
-        elif [ "$arch" = "x86_64" ]; then
+        elif [ "${ARCH_X86_64:-0}" -eq 1 ]; then
             brew_install_cask virtualbox
         fi
     fi
