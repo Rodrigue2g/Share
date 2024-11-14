@@ -264,8 +264,12 @@ fastForward(){
             elif [ "$formula" = "nodejs" ]; then
                 brew_install nvm
                 NVM_PATH="$(brew --prefix nvm)/nvm.sh"
-                sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
-                sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+                echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
+                echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+                # sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
+                # /bin/bash: line 266: /etc/zshrc: Permission denied
+                # sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+                # /bin/bash: line 267: /etc/zshrc: Permission denied
                 source /etc/zshrc
                 nvm install --lts
             elif [ "$formula" = "mongodb" ]; then
@@ -348,8 +352,12 @@ main(){
     if [ $s -eq 0 ]; then
         brew_install nvm
         NVM_PATH="$(brew --prefix nvm)/nvm.sh"
-        sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
-        sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+        echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
+        echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+        # sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
+        # /bin/bash: line 266: /etc/zshrc: Permission denied
+        # sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
+        # /bin/bash: line 267: /etc/zshrc: Permission denied
         source /etc/zshrc
         nvm install --lts
     fi
