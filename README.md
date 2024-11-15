@@ -1,4 +1,5 @@
-# This repository contains some usefull scripts and tools, mainly for installation process on different platforms
+# Share
+### This repository contains some usefull scripts and tools, mainly for installation process on different platforms
 
 ## Setup a new mac (runing macOS) with common apps and tools
 Open a Terminal and run:
