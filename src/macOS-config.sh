@@ -90,10 +90,10 @@ else
     abort "Unknown architecture: $arch"
 fi
 
-if [ -z "$PS1" ]; then
-    INTERACTIVE_MODE=0
-else
+if [[ $- == *i* ]]; then
     INTERACTIVE_MODE=1
+else
+    INTERACTIVE_MODE=0
 fi
 
 if [[ "$0" == "-zsh" || "$0" == "zsh" ]]; then
@@ -308,14 +308,17 @@ fastForward(){
             elif [ "$formula" = "nodejs" ]; then
                 brew_install nvm
                 NVM_PATH="$(brew --prefix nvm)/nvm.sh"
-                echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
-                echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+                # echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
+                # echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+                warn "MacOS config currently faces issues installing nodejs; please run $ echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc;
+                $ echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc; $ source /etc/zshrc;
+                $ nvm install --lts; once the installation is completed"
                 # sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
                 # /bin/bash: line 266: /etc/zshrc: Permission denied
                 # sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
                 # /bin/bash: line 267: /etc/zshrc: Permission denied
-                source /etc/zshrc
-                nvm install --lts
+                # source /etc/zshrc
+                # nvm install --lts
             elif [ "$formula" = "mongodb" ]; then
                 brew tap mongodb/brew
                 brew_install mongodb-community@7.0
@@ -399,14 +402,17 @@ main(){
     if [ $s -eq 0 ]; then
         brew_install nvm
         NVM_PATH="$(brew --prefix nvm)/nvm.sh"
-        echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
-        echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+        # echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc
+        # echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc
+        warn "MacOS config currently faces issues installing nodejs; please run $ echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc;
+        $ echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc; $ source /etc/zshrc;
+        $ nvm install --lts; once the installation is completed"
         # sudo echo 'export NVM_DIR="$HOME/.nvm"' >> /etc/zshrc
         # /bin/bash: line 266: /etc/zshrc: Permission denied
         # sudo echo '. "${NVM_PATH}"' >> /etc/zshrc
         # /bin/bash: line 267: /etc/zshrc: Permission denied
-        source /etc/zshrc
-        nvm install --lts
+        # source /etc/zshrc
+        # nvm install --lts
     fi
 
     # Install openssl
