@@ -78,10 +78,6 @@ else
     abort "macOS config should only run on macOS."
 fi
 
-if [ -z "$VENDOR" ]; then
-    export VENDOR="apple"
-fi
-
 #Architecture check
 arch="$(uname -m)"
 if [ "$arch" = "arm64" ]; then
@@ -101,10 +97,12 @@ else
 fi
 
 if [[ "$0" == "-zsh" || "$0" == "zsh" ]]; then
-    echo "You are using zsh"
     ZSH_SHELL=1
+    if [ -z "$VENDOR" ]; then
+        export VENDOR="apple"
+    fi
+    abort "MacOS config currently has issues while runing in zsh. Please use /bin/bash instead."
 elif [[ "$0" == "-bash" ]] || [[ "$0" == "bash" ]]; then
-    echo "You are not using zsh"
     BASH_SHELL=1
 fi
 
