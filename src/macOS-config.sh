@@ -12,7 +12,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LICENSE
 
-VERSION=2.0.1
+VERSION=2.1.0
 set -u 
 #set +u
 
@@ -44,8 +44,8 @@ shell_join(){
     done
 }
 chomp(){
-    #printf "%s" "${1/"$'\n'"/}"
-    printf "%s" "${1//$'\n'/}"
+    printf "%s" "${1/"$'\n'"/}"
+    #printf "%s" "${1//$'\n'/}"
 }
 ohai(){
     printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
