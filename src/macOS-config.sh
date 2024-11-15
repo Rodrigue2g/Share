@@ -308,6 +308,7 @@ fastForward(){
             elif [ "$formula" = "nodejs" ]; then
                 brew_install nvm
                 NVM_PATH="$(brew --prefix nvm)/nvm.sh"
+                echo
                 warn "MacOS config currently faces issues installing nodejs; please run the folllowing lines once the installation process is completed"
                 echo " $ echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc "
                 echo " $ echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc "
@@ -317,6 +318,7 @@ fastForward(){
                 # /bin/bash: line 267: /etc/zshrc: Permission denied
                 echo " $ source /etc/zshrc "
                 echo " $ nvm install --lts "
+                echo
             elif [ "$formula" = "mongodb" ]; then
                 brew tap mongodb/brew
                 brew_install mongodb-community@7.0
@@ -400,6 +402,7 @@ main(){
     if [ $s -eq 0 ]; then
         brew_install nvm
         NVM_PATH="$(brew --prefix nvm)/nvm.sh"
+        echo
         warn "MacOS config currently faces issues installing nodejs; please run the folllowing lines once the installation process is completed"
         echo " $ echo 'export NVM_DIR="$HOME/.nvm"' | sudo tee -a /etc/zshrc "
         echo " $ echo ". \"${NVM_PATH}\"" | sudo tee -a /etc/zshrc "
@@ -409,6 +412,7 @@ main(){
         # /bin/bash: line 267: /etc/zshrc: Permission denied
         echo " $ source /etc/zshrc "
         echo " $ nvm install --lt "
+        echo
     fi
 
     # Install openssl
