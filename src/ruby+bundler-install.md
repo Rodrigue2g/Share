@@ -4,7 +4,7 @@
 $ brew update
 $ brew install rbenv
 ```
-Add the following in .bashrc file:
+Add the following in ~/.zshrc or (.bashrc) file:
 ```sh
 eval "$(rbenv init -)"
 ```
@@ -13,15 +13,15 @@ Now, we can look at the list of ruby versions available for install
 ```sh
 $ rbenv install -l
 ```
-Install version 2.3.8 for example
+Install version 3.1.6 for example
 
 ```sh
-$ rbenv install 2.3.8
+$ rbenv install 3.1.6
 ```
 Now we can use this ruby version globally
 
 ```sh
-$ rbenv global 2.3.8
+$ rbenv global 3.1.6
 ```
 Finally run
 
@@ -33,6 +33,9 @@ $ ruby -v
 ruby 2.3.7p456 (2018-03-28 revision 63024) [x86_64-darwin17]
 ```
 
+`which ruby` should *not* return /usr/bin/ruby
+If `$ ruby -v` returns `rbenv: version `ruby' is not installed` then run `$ rbenv local 3.1.6`
+
 ## Now install bundler
 
 ```sh
@@ -42,6 +45,8 @@ For our needs in particular (depends on your Gemfile requirements)
 ```sh
 $ gem install bundler:2.6.2
 ```
+
+After which we can run `bundle install` for our Gemfile.
 
 Thanks to https://stackoverflow.com/questions/51126403/you-dont-have-write-permissions-for-the-library-ruby-gems-2-3-0-directory-ma for this working solution
 
