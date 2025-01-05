@@ -39,15 +39,11 @@ ruby 2.3.7p456 (2018-03-28 revision 63024) [x86_64-darwin17]
 $ gem install bundler
 ```
 
-
-```sh
-gem install bundler
-```
-Ref: https://stackoverflow.com/questions/51126403/you-dont-have-write-permissions-for-the-library-ruby-gems-2-3-0-directory-ma
+Thanks to https://stackoverflow.com/questions/51126403/you-dont-have-write-permissions-for-the-library-ruby-gems-2-3-0-directory-ma for this working solution
 
 
 
-Assuming your system meets the requirements & it is installed correctly, here are some useful commands that should help. (obviously do not include $ as it is only to represent cmd prompt)
+## Some usefull commands for ruby-install
 
 List supported Rubies and their major versions: `$ ruby-install`
 
