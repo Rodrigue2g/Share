@@ -38,6 +38,10 @@ ruby 2.3.7p456 (2018-03-28 revision 63024) [x86_64-darwin17]
 ```sh
 $ gem install bundler
 ```
+For our needs in particular (depends on your Gemfile requirements)
+```sh
+$ gem install bundler:2.6.2
+```
 
 Thanks to https://stackoverflow.com/questions/51126403/you-dont-have-write-permissions-for-the-library-ruby-gems-2-3-0-directory-ma for this working solution
 
