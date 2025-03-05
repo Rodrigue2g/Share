@@ -43,6 +43,11 @@ $ conda install -c conda-forge julia
 # Instead install it from
 $ curl -fsSL https://install.julialang.org | sh
 
+# If you get `CondaError: Run 'conda init' before 'conda activate'`; Make sure you are in the conda env and run:
+$ sudo chown $USER ~/.bash_profile
+$ curl -fsSL https://install.julialang.org | sh
+# And now it should work.
+
 # Then deactive the conda env, reload your shell and re-activate your conda env
 $ conda deactivate 
 $ source ~/.bashrc
