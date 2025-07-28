@@ -8,3 +8,15 @@ $ ssh-add ~/.ssh/id_ed25519_<name>
 
 # You can then copy the public key generated
 $ pbcopy < ~/.ssh/id_ed25519_<name>.pub
+
+# To directly copy the pk to the vps:
+$ ssh-copy-id -i ~/.ssh/id_ed25519_<name>.pub <username>@<vps-ip>
+
+# Then on the vps, edit the SSH config
+$ sudo nano /etc/ssh/sshd_config
+
+# Find and set:
+PasswordAuthentication no
+
+# Then restart SSH
+$ sudo systemctl restart ssh
