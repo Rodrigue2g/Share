@@ -1,4 +1,4 @@
-
+#! bin/bash
 
 # Go to the logs folder
 $ cd /Users/<USERNAME>/Library/Application Support/GitHub Desktop/logs
