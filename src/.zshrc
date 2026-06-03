@@ -17,3 +17,19 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+
+# Kill a port already in use
+# i.e. kp 3000
+killport() {
+  local pids=$(lsof -ti :"$1")
+  if [[ -n "$pids" ]]; then
+    echo "$pids" | xargs kill -9 2>/dev/null && echo "Port $1 freed"
+  else
+    echo "No process on port $1"
+  fi
+}
+
+kp() {
+  killport "$@"
+}
