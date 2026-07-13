@@ -33,3 +33,14 @@ killport() {
 kp() {
   killport "$@"
 }
+
+v() {
+    local VENV=".venv"
+
+    if [ ! -d "$VENV" ]; then
+        echo "Creating virtual environment..."
+        python3 -m venv "$VENV" || return 1
+    fi
+
+    source "$VENV/bin/activate"
+}
