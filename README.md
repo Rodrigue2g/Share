@@ -12,7 +12,7 @@
 /bin/bash -c "$(curl -k https://raw.githubusercontent.com/Rodrigue2g/dotfiles/main/macos/setup.sh)"
 ```
 
-### gtkmm Install
+### gtkmm Installation
 
 ```sh
 /bin/bash -c "$(curl -k https://raw.githubusercontent.com/Rodrigue2g/dotfiles/main/scripts/gtk-install.sh)"
